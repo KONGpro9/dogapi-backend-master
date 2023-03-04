@@ -1,0 +1,43 @@
+server:
+  port: 8090
+spring:
+  cloud:
+    gateway:
+      default-filters:
+        - AddResponseHeader=source, chen
+      routes:
+        - id: api_route
+          uri: http://localhost:8123
+          predicates:
+            - Path=/api/**
+#        - id: add_request_header_route
+#          uri: http://114.132.236.239:8123
+#          predicates:
+#            - Path=/api/**
+#          filters:
+#            - AddRequestHeader=chen, swag
+#            - AddRequestParameter=name, dog
+#            - name: CircuitBreaker
+#              args:
+#                name: myCircuitBreaker
+#                fallbackUri: forward:/fallback
+#        - id: chen-fallback
+#          uri: https://chen.icu
+#          predicates:
+#            - Path=/fallback
+logging:
+  level:
+    org:
+      springframework:
+        cloud:
+          gateway: trace
+dubbo:
+  application:
+    name: dogapi-provider
+  protocol:
+    name: dubbo
+    port: -1
+  registry:
+    id: nacos-registry
+    address: nacos://114.132.236.239:8848
+
